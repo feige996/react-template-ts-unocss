@@ -1,7 +1,9 @@
+import { Editor } from './Editor'
+
 function App() {
   return (
     <div>
-      <h3 className='text-blue-500'>react18+vite5+ts+unocss+svg</h3>
+      <Editor />
     </div>
   )
 }
