@@ -11,13 +11,17 @@
 ```jsx
 import SvgIcon from "/@/components/SvgIcon"
 <SvgIcon name="icon-name" />
-<SvgIcon name="icon-name" width="30px" />
-<SvgIcon name="icon-name" width="30"/>
-<SvgIcon name="icon-name" width={30} />
+<SvgIcon name="icon-name" size="3em" />
+<SvgIcon name="icon-name" size="30px" />
+<SvgIcon name="icon-name" size="30"/>
+<SvgIcon name="icon-name" size={30} />
 // 上面3种效果一致
-// 下面2中效果也一样
+// 支持宽高数组
+<SvgIcon name="icon-name" size={[30,40]} />
+// 下面3种效果也一样
 <SvgIcon name="icon-name" color="red" />
 <SvgIcon name="icon-name" className="text-red" />
+<SvgIcon name="icon-name" className="c-red" />
 // 同时支持点击事件，可以写在 div 上属性都可以传进来
 <SvgIcon name="icon-name" onClick={() => {console.log('click')}} />
 ```
