@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control BeforeUnload</title>
+</head>
+
+<body>
+    <h1>控制 BeforeUnload 事件</h1>
+    <button id="enablePrompt">启用提示</button>
+    <button id="disablePrompt">禁用提示</button>
+
+    <script>
+        let shouldPrompt = true;
+
+        const handleBeforeUnload = (event) => {
+            console.log('handleBeforeUnload...')
+            if (shouldPrompt) {
+                const message = "确定离开吗？";
+                event.returnValue = message; // 兼容旧浏览器
+                return message;
+            }
+        };
+
+        // 添加事件监听器
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        // 启用提示
+        document.getElementById('enablePrompt').addEventListener('click', () => {
+            shouldPrompt = true;
+            alert('提示已启用');
+        });
+
+        // 禁用提示
+        document.getElementById('disablePrompt').addEventListener('click', () => {
+            shouldPrompt = false;
+            alert('提示已禁用');
+        });
+    </script>
+</body>
+
+</html>

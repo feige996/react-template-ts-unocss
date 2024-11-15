@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable and Resizable Dialog</title>
+    <style>
+        .dialog {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+            background-color: white;
+            overflow: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dialog-header {
+            cursor: move;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .dialog-content {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dialog" id="dialog">
+        <div class="dialog-header" id="dialogHeader">Draggable Header</div>
+        <div class="dialog-content">Content goes here...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dialog = document.getElementById('dialog');
+            const dialogHeader = document.getElementById('dialogHeader');
+
+            const minWidth = 400;
+            const minHeight = 300;
+            let isFullScreen = false;
+            let nowMarginTop = 0;
+
+            // 拖拽功能
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            dialogHeader.onmousedown = (e) => {
+                isDragging = true;
+                offsetX = e.clientX - dialog.offsetLeft;
+                offsetY = e.clientY - dialog.offsetTop;
+                dialog.style.cursor = 'move';
+            };
+
+            document.onmousemove = (e) => {
+                if (isDragging) {
+                    const x = e.clientX - offsetX;
+                    const y = e.clientY - offsetY;
+                    dialog.style.left = `${x}px`;
+                    dialog.style.top = `${y}px`;
+                }
+            };
+
+            document.onmouseup = () => {
+                isDragging = false;
+                dialog.style.cursor = 'default';
+            };
+
+            // 双击全屏功能
+            dialogHeader.ondblclick = () => {
+                if (!isFullScreen) {
+                    nowMarginTop = dialog.style.marginTop;
+                    dialog.style.left = '0';
+                    dialog.style.top = '0';
+                    dialog.style.height = '100vh';
+                    dialog.style.width = '100vw';
+                    dialog.style.marginTop = '0';
+                    isFullScreen = true;
+                    dialogHeader.style.cursor = 'initial';
+                    dialogHeader.onmousedown = null;
+                } else {
+                    dialog.style.height = 'auto';
+                    dialog.style.width = '400px';
+                    dialog.style.marginTop = nowMarginTop;
+                    isFullScreen = false;
+                    dialogHeader.style.cursor = 'move';
+                    dialogHeader.onmousedown = (e) => {
+                        isDragging = true;
+                        offsetX = e.clientX - dialog.offsetLeft;
+                        offsetY = e.clientY - dialog.offsetTop;
+                        dialog.style.cursor = 'move';
+                    };
+                }
+            };
+
+            // 调整大小功能
+            let isResizing = false;
+            let initialWidth, initialHeight, initialX, initialY;
+
+            dialog.onmousedown = (e) => {
+                if (
+                    e.clientX > dialog.offsetLeft + dialog.clientWidth - 10 ||
+                    e.clientX < dialog.offsetLeft + 10 ||
+                    e.clientY > dialog.offsetTop + dialog.clientHeight - 10
+                ) {
+                    isResizing = true;
+                    initialWidth = dialog.clientWidth;
+                    initialHeight = dialog.clientHeight;
+                    initialX = e.clientX;
+                    initialY = e.clientY;
+                    dialog.style.cursor = 'nwse-resize';
+                }
+            };
+
+            document.onmousemove = (e) => {
+                if (isResizing) {
+                    const newWidth = initialWidth + (e.clientX - initialX);
+                    const newHeight = initialHeight + (e.clientY - initialY);
+                    if (newWidth >= minWidth) dialog.style.width = `${newWidth}px`;
+                    if (newHeight >= minHeight) dialog.style.height = `${newHeight}px`;
+                }
+            };
+
+            document.onmouseup = () => {
+                isResizing = false;
+                dialog.style.cursor = 'default';
+            };
+        });
+    </script>
+</body>
+
+</html>

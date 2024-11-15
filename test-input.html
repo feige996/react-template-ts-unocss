@@ -1,0 +1,17 @@
+<input id="txt" type="text">
+<script>
+    const $ = document.querySelector.bind(document);
+    var flag = true;
+    $('#txt').on('compositionstart', function () {
+        flag = true;
+    })
+    $('#txt').on('compositionend', function () {
+        flag = true;
+    })
+    $('#txt').on('keyup', function () {
+        var _this = this;
+        if (flag) {
+            console.log($(_this).val());
+        }
+    })
+</script>
