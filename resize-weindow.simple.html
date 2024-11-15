@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable and Resizable Dialog</title>
+    <style>
+        .dialog {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+            background-color: white;
+            overflow: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dialog-header {
+            cursor: move;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .dialog-content {
+            padding: 10px;
+        }
+
+        .resize-handle {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            cursor: ew-resize;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dialog" id="dialog">
+        <div class="dialog-content">Content goes here...</div>
+        <div class="resize-handle" id="resizeHandle"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dialog = document.getElementById('dialog');
+            const resizeHandle = document.getElementById('resizeHandle');
+
+            const minWidth = 400;
+
+            // 调整大小功能
+            let isResizing = false;
+            let initialWidth;
+
+            resizeHandle.onmousedown = (e) => {
+                isResizing = true;
+                initialWidth = dialog.clientWidth;
+                dialog.style.cursor = 'ew-resize';
+            };
+
+            document.onmousemove = (e) => {
+                if (isResizing) {
+                    const newWidth = initialWidth + (e.clientX - resizeHandle.offsetLeft);
+                    if (newWidth >= minWidth) dialog.style.width = `${newWidth}px`;
+                }
+            };
+
+            document.onmouseup = () => {
+                isResizing = false;
+                dialog.style.cursor = 'default';
+            };
+        });
+    </script>
+</body>
+
+</html>

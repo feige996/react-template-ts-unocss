@@ -1,5 +1,5 @@
 import SvgIcon from './components/SvgIcon'
-
+import ReactSortable from './ReactSortablejs'
 function App() {
   return (
     <div>
@@ -9,6 +9,7 @@ function App() {
       <SvgIcon name='close' size='30' />
       <SvgIcon name='close' size={30} />
       <SvgIcon name='close' size={[30, 40]} />
+      <ReactSortable />
     </div>
   )
 }

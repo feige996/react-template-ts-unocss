@@ -42,60 +42,60 @@
 
             const minWidth = 400;
             const minHeight = 300;
-            let isFullScreen = false;
-            let nowMarginTop = 0;
+            // let isFullScreen = false;
+            // let nowMarginTop = 0;
 
-            // 拖拽功能
-            let isDragging = false;
-            let offsetX, offsetY;
+            // // 拖拽功能
+            // let isDragging = false;
+            // let offsetX, offsetY;
 
-            dialogHeader.onmousedown = (e) => {
-                isDragging = true;
-                offsetX = e.clientX - dialog.offsetLeft;
-                offsetY = e.clientY - dialog.offsetTop;
-                dialog.style.cursor = 'move';
-            };
+            // dialogHeader.onmousedown = (e) => {
+            //     isDragging = true;
+            //     offsetX = e.clientX - dialog.offsetLeft;
+            //     offsetY = e.clientY - dialog.offsetTop;
+            //     dialog.style.cursor = 'move';
+            // };
 
-            document.onmousemove = (e) => {
-                if (isDragging) {
-                    const x = e.clientX - offsetX;
-                    const y = e.clientY - offsetY;
-                    dialog.style.left = `${x}px`;
-                    dialog.style.top = `${y}px`;
-                }
-            };
+            // document.onmousemove = (e) => {
+            //     if (isDragging) {
+            //         const x = e.clientX - offsetX;
+            //         const y = e.clientY - offsetY;
+            //         dialog.style.left = `${x}px`;
+            //         dialog.style.top = `${y}px`;
+            //     }
+            // };
 
-            document.onmouseup = () => {
-                isDragging = false;
-                dialog.style.cursor = 'default';
-            };
+            // document.onmouseup = () => {
+            //     isDragging = false;
+            //     dialog.style.cursor = 'default';
+            // };
 
-            // 双击全屏功能
-            dialogHeader.ondblclick = () => {
-                if (!isFullScreen) {
-                    nowMarginTop = dialog.style.marginTop;
-                    dialog.style.left = '0';
-                    dialog.style.top = '0';
-                    dialog.style.height = '100vh';
-                    dialog.style.width = '100vw';
-                    dialog.style.marginTop = '0';
-                    isFullScreen = true;
-                    dialogHeader.style.cursor = 'initial';
-                    dialogHeader.onmousedown = null;
-                } else {
-                    dialog.style.height = 'auto';
-                    dialog.style.width = '400px';
-                    dialog.style.marginTop = nowMarginTop;
-                    isFullScreen = false;
-                    dialogHeader.style.cursor = 'move';
-                    dialogHeader.onmousedown = (e) => {
-                        isDragging = true;
-                        offsetX = e.clientX - dialog.offsetLeft;
-                        offsetY = e.clientY - dialog.offsetTop;
-                        dialog.style.cursor = 'move';
-                    };
-                }
-            };
+            // // 双击全屏功能
+            // dialogHeader.ondblclick = () => {
+            //     if (!isFullScreen) {
+            //         nowMarginTop = dialog.style.marginTop;
+            //         dialog.style.left = '0';
+            //         dialog.style.top = '0';
+            //         dialog.style.height = '100vh';
+            //         dialog.style.width = '100vw';
+            //         dialog.style.marginTop = '0';
+            //         isFullScreen = true;
+            //         dialogHeader.style.cursor = 'initial';
+            //         dialogHeader.onmousedown = null;
+            //     } else {
+            //         dialog.style.height = 'auto';
+            //         dialog.style.width = '400px';
+            //         dialog.style.marginTop = nowMarginTop;
+            //         isFullScreen = false;
+            //         dialogHeader.style.cursor = 'move';
+            //         dialogHeader.onmousedown = (e) => {
+            //             isDragging = true;
+            //             offsetX = e.clientX - dialog.offsetLeft;
+            //             offsetY = e.clientY - dialog.offsetTop;
+            //             dialog.style.cursor = 'move';
+            //         };
+            //     }
+            // };
 
             // 调整大小功能
             let isResizing = false;
