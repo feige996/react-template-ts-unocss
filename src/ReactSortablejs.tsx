@@ -12,6 +12,12 @@ interface ItemListProps {
   onEnd?: (event: SortableEvent) => void
 }
 
+const listItemStyle = {
+  padding: '5px',
+  border: '1px solid #ccc',
+  marginBottom: '5px',
+}
+
 const ItemList: React.FC<ItemListProps> = ({ items, setItems, onEnd }) => (
   <Sortable
     list={items}
@@ -22,14 +28,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, setItems, onEnd }) => (
     style={{ listStyleType: 'none', padding: 0 }}
   >
     {items.map((item) => (
-      <li
-        key={item.id}
-        style={{
-          padding: '5px',
-          border: '1px solid #ccc',
-          marginBottom: '5px',
-        }}
-      >
+      <li key={item.id} style={listItemStyle}>
         {item.name}
       </li>
     ))}
@@ -49,21 +48,23 @@ const App = () => {
   ])
 
   const handleEnd = (event: SortableEvent) => {
-    const { oldIndex, newIndex } = event
-    const putSortable = event.to !== event.from
+    const { oldIndex, newIndex, to, from } = event
     console.log('event: ', event)
     if (!oldIndex || !newIndex) {
       return
     }
-    if (putSortable) {
-      // 从物料区拖到展示区
-      setDisplayItems([...displayItems, materials[oldIndex]])
+    if (to === from) {
+      // 在同一个列表内拖动
+      const newItems = [...displayItems]
+      const [removed] = newItems.splice(oldIndex, 1)
+      newItems.splice(newIndex, 0, removed)
+      setDisplayItems(newItems)
     } else {
-      // 在展示区内拖动
-      const newDisplayItems = [...displayItems]
-      const [removed] = newDisplayItems.splice(oldIndex, 1)
-      newDisplayItems.splice(newIndex, 0, removed)
+      // 从物料区拖到展示区
+      const newDisplayItems = [...displayItems, materials[oldIndex]]
       setDisplayItems(newDisplayItems)
+      //   const newMaterials = materials.filter((_, index) => index !== oldIndex)
+      //   setMaterials(newMaterials)
     }
   }
 
@@ -71,11 +72,7 @@ const App = () => {
     <div style={{ display: 'flex', gap: '20px' }}>
       <div>
         <h3>物料区</h3>
-        <ItemList
-          items={materials}
-          setItems={setMaterials}
-          onEnd={() => {}}
-        />{' '}
+        <ItemList items={materials} setItems={setMaterials} onEnd={() => {}} />
         {/* 物料区不需要 onEnd 回调 */}
       </div>
       <div>
@@ -83,7 +80,8 @@ const App = () => {
         <ItemList
           items={displayItems}
           setItems={setDisplayItems}
-          onEnd={handleEnd}
+          //   onEnd={handleEnd}
+          onEnd={() => {}}
         />
       </div>
     </div>
